@@ -35,10 +35,12 @@ namespace Timesheets
         {
           // services.AddDbContext<TimeSheetDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<TimeSheetDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),tabl => tabl.MigrationsAssembly("Timesheets")));
-            services.AddScoped<ISheetRepo, SheetRepo>();
             services.AddScoped<ISheetManager, SheetManager>();
-     //       services.AddScoped<IContractManager, ContractManager>();
+          // services.AddScoped<IContractManager, ContractManager>();
             services.AddScoped<IContractRepo, ContractRepo>();
+            services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<ISheetRepo, SheetRepo>();
             services.AddControllers();
             services.AddSwaggerGen( c =>
             {

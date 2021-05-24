@@ -11,31 +11,56 @@ namespace Timesheets.Services.Implementetion
 {
     public class SheetManager : ISheetManager
     {
-          private readonly ISheetRepo _sheetRepo;
+        private readonly ISheetRepo _sheetRepo;
 
         public SheetManager(ISheetRepo sheetRepo)
         {
           _sheetRepo = sheetRepo;
         }
 
-        Guid ISheetManager.Create(SheetCreateRequest sheetRequest)
+        public async Task<Sheet> GetItem(Guid id)
         {
-           var sheet = new Sheet()
-            {
-                Amount = sheetRequest.Amount,
-                ID = Guid.NewGuid(),
-                Date = sheetRequest.Date,
-                EmployeeID = sheetRequest.EmployeeID,
-                ContractID = sheetRequest.ContractID,
-                ServiceID = sheetRequest.ServiceID
-            };
-            _sheetRepo.Add(sheet);
-            return  sheet.ID;
+            return await _sheetRepo.GetItem(id);
         }
 
-        Sheet ISheetManager.GetItem(Guid id)
+        public async Task<IEnumerable<Sheet>> GetItems()
         {
-            return _sheetRepo.GetItem(id);
+            return await _sheetRepo.GetItems();
+        }
+
+        Task<IEnumerable<Sheet>> ISheetManager.GetItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Guid> Create( SheetCreateRequest sheetRequest)
+        {
+            var sheet = new Sheet
+            {
+                ID = Guid.NewGuid(),
+                Amount = sheetRequest.Amount,
+                ContractID = sheetRequest.ContractID,
+                Date = sheetRequest.Date,
+                EmployeeID = sheetRequest.EmployeeID,
+                ServiceID = sheetRequest.ServiceID
+            };
+            await _sheetRepo.Add(sheet);
+            return sheet.ID;
+        }
+
+        public async Task Update(Guid id, SheetCreateRequest sheetRequest)
+        {
+            var sheet = new Sheet
+            {
+                ID = id,
+                Amount = sheetRequest.Amount,
+                ContractID = sheetRequest.ContractID,
+                Date = sheetRequest.Date,
+                EmployeeID = sheetRequest.EmployeeID,
+                ServiceID = sheetRequest.ServiceID
+            };
+            
+            await _sheetRepo.Update(sheet);
         }
     }
 }

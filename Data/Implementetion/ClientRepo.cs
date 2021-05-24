@@ -9,24 +9,34 @@ namespace Timesheets.Data.Implementetion
 {
     public class ClientRepo : IClientRepo
     {
-    
+        private readonly TimeSheetDbContext _context;
 
-        void IRepoBase<Client>.Add(Client item)
+        public ClientRepo(TimeSheetDbContext context)
+        {
+            _context = context;
+        }
+
+        Task IRepoBase<Client>.Add(Client item)
         {
             throw new NotImplementedException();
         }
 
-        Client IRepoBase<Client>.GetItem(Guid ID)
+        Task IRepoBase<Client>.Delete(Client item)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Client> IRepoBase<Client>.GetItems()
+        Task<Client> IRepoBase<Client>.GetItem(Guid ID)
         {
             throw new NotImplementedException();
         }
 
-        void IRepoBase<Client>.Update()
+        Task<IEnumerable<Client>> IRepoBase<Client>.GetItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IRepoBase<Client>.Update(Client item)
         {
             throw new NotImplementedException();
         }

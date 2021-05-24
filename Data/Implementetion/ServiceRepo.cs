@@ -9,24 +9,34 @@ namespace Timesheets.Data.Implementetion
 {
     public class ServiceRepo : IServiceRepo
     {
-       
+            private readonly TimeSheetDbContext _context;
 
-        void IRepoBase<Service>.Add(Service item)
+        public ServiceRepo(TimeSheetDbContext context)
+        {
+            _context = context;
+        }
+
+        Task IRepoBase<Service>.Add(Service item)
         {
             throw new NotImplementedException();
         }
 
-        Service IRepoBase<Service>.GetItem(Guid ID)
+        Task IRepoBase<Service>.Delete(Service item)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<Service> IRepoBase<Service>.GetItems()
+        Task<Service> IRepoBase<Service>.GetItem(Guid ID)
         {
             throw new NotImplementedException();
         }
 
-        void IRepoBase<Service>.Update()
+        Task<IEnumerable<Service>> IRepoBase<Service>.GetItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IRepoBase<Service>.Update(Service item)
         {
             throw new NotImplementedException();
         }

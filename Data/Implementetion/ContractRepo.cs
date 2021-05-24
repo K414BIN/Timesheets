@@ -2,33 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 
 namespace Timesheets.Data.Implementetion
 {
     public class ContractRepo : IContractRepo
-
     {
+        private readonly TimeSheetDbContext _context;
+
+        public ContractRepo(TimeSheetDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task Add(Contract item)
+        {
  
-        void IRepoBase<Contract>.Add(Contract item)
+            await _context.Contracts.AddAsync(item);
+            await _context.SaveChangesAsync();
+        }
+
+        Task IRepoBase<Contract>.Delete(Contract item)
         {
             throw new NotImplementedException();
         }
 
-        Contract IRepoBase<Contract>.GetItem(Guid ID)
+        public async  Task<Contract> GetItem(Guid ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Contracts.FindAsync(ID);
+            return result;
         }
 
-        IEnumerable<Contract> IRepoBase<Contract>.GetItems()
+        public async Task<IEnumerable<Contract>> GetItems()
         {
-            throw new NotImplementedException();
+            var result = await _context.Contracts.ToListAsync();
+            return result;
         }
 
-        void IRepoBase<Contract>.Update()
+         public async Task Update(Contract item)
         {
-            throw new NotImplementedException();
+             _context.Contracts.Update(item);
+            await _context.SaveChangesAsync();
         }
+
     }
 }

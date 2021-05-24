@@ -4,31 +4,49 @@ using System.Linq;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Timesheets.Data.Implementetion
 {
     public class UserRepo : IUserRepo
     {
-    
+        
+        private readonly TimeSheetDbContext _context;
 
-        void IRepoBase<User>.Add(User item)
+        public UserRepo(TimeSheetDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        User IRepoBase<User>.GetItem(Guid ID)
+        public  async Task<User> GetItem(Guid ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Users.FindAsync(ID);
+            return result;
         }
 
-        IEnumerable<User> IRepoBase<User>.GetItems()
+        public async Task<IEnumerable<User>> GetItems()
         {
-            throw new NotImplementedException();
+           var result = await _context.Users.ToListAsync();
+           return result;
         }
 
-        void IRepoBase<User>.Update()
+        public async Task Update(User item)
         {
-            throw new NotImplementedException();
-        }
+             _context.Users.Update(item);
+             await _context.SaveChangesAsync();
+        }  
+
+        public async Task Add(User item)
+        {
+             await _context.Users.AddAsync(item);
+             await _context.SaveChangesAsync();  
+        }   
+
+        public async Task Delete(User item)
+        {
+             throw new NotImplementedException();
+             //_context.Users.RemoveAsync     DeleteAsync(item);
+             //await _context.SaveChangesAsync();
+        } 
     }
 }

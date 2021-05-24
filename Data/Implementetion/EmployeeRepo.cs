@@ -4,31 +4,46 @@ using System.Linq;
 using System.Threading.Tasks;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Timesheets.Data.Implementetion
 {
     public class EmployeeRepo : IEmployeeRepo
     {
+       private readonly TimeSheetDbContext _context;
 
+        public EmployeeRepo(TimeSheetDbContext context)
+        {
+            _context = context;
+        }
 
-        void IRepoBase<Employee>.Add(Employee item)
+        public async Task Add(Employee item)
+        {
+           await _context.Employees.AddAsync(item);
+           await _context.SaveChangesAsync();
+        }
+
+        Task IRepoBase<Employee>.Delete(Employee item)
         {
             throw new NotImplementedException();
         }
 
-        Employee IRepoBase<Employee>.GetItem(Guid ID)
+        public async  Task<Employee> GetItem(Guid ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Employees.FindAsync(ID);
+            return result;
         }
 
-        IEnumerable<Employee> IRepoBase<Employee>.GetItems()
+        public async Task<IEnumerable<Employee>> GetItems()
         {
-            throw new NotImplementedException();
+            var result = await _context.Employees.ToListAsync();
+            return result;
         }
 
-        void IRepoBase<Employee>.Update()
+         public async Task Update(Employee item)
         {
-            throw new NotImplementedException();
+             _context.Employees.Update(item);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -9,7 +9,10 @@ namespace Timesheets.Services.Interfaces
 {
      public  interface ISheetManager
     {
-        Sheet GetItem(Guid id);
-        Guid Create(SheetCreateRequest sheetRequest);
+       
+        Task<Sheet> GetItem(Guid id);
+        Task<IEnumerable<Sheet>> GetItems();
+        Task<Guid> Create(SheetCreateRequest sheet);
+        Task Update(Guid id, SheetCreateRequest sheetRequest);
     }
 }
