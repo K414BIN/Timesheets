@@ -26,23 +26,23 @@ namespace Timesheets.Data.Implementetion
 
         public async Task Delete(Sheet item)
         { 
-          throw new NotImplementedException();
-         
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
-        public  async Task<Sheet> GetItem(Guid ID)
+        public async Task<Sheet> GetItem(Guid ID)
         {
             var result = await _context.Sheets.FindAsync(ID);
             return result;
         }
 
-        public  async    Task<IEnumerable<Sheet>> GetItems()
+        public async Task<IEnumerable<Sheet>> GetItems()
         {
             var result  = await _context.Sheets.ToListAsync();
             return result;
         }
 
-        public  async Task Update(Sheet item)
+        public async Task Update(Sheet item)
         {
            _context.Sheets.Update(item);
             await _context.SaveChangesAsync();

@@ -24,9 +24,10 @@ namespace Timesheets.Data.Implementetion
             await _context.SaveChangesAsync();
         }
 
-        Task IRepoBase<Contract>.Delete(Contract item)
+        public async Task Delete(Contract item)
         {
-            throw new NotImplementedException();
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
         public async  Task<Contract> GetItem(Guid ID)

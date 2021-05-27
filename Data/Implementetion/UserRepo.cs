@@ -44,9 +44,8 @@ namespace Timesheets.Data.Implementetion
 
         public async Task Delete(User item)
         {
-             throw new NotImplementedException();
-             //_context.Users.RemoveAsync     DeleteAsync(item);
-             //await _context.SaveChangesAsync();
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         } 
     }
 }

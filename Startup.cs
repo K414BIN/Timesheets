@@ -18,6 +18,7 @@ using Timesheets.Services.Implementetion;
 using Timesheets.Services.Interfaces;
 using Timesheets.Data;
 using Microsoft.EntityFrameworkCore;
+using Timesheets.Infrastructure.Extensions;
 
 namespace Timesheets
 {
@@ -33,19 +34,13 @@ namespace Timesheets
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          // services.AddDbContext<TimeSheetDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<TimeSheetDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),tabl => tabl.MigrationsAssembly("Timesheets")));
-            services.AddScoped<ISheetManager, SheetManager>();
-          // services.AddScoped<IContractManager, ContractManager>();
-            services.AddScoped<IContractRepo, ContractRepo>();
-            services.AddScoped<IEmployeeRepo, EmployeeRepo>();
-            services.AddScoped<IUserRepo, UserRepo>();
-            services.AddScoped<ISheetRepo, SheetRepo>();
+
+            services.ConfigureDbContext(Configuration);
+            services.ConfigureRepositories();
+            services.ConfigureServicesManagers();
+            services.ConfigureBackendSwagger();
             services.AddControllers();
-            services.AddSwaggerGen( c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Timesheets", Version = "v1"  });
-            });
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

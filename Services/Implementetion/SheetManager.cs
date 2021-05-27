@@ -28,11 +28,6 @@ namespace Timesheets.Services.Implementetion
             return await _sheetRepo.GetItems();
         }
 
-        Task<IEnumerable<Sheet>> ISheetManager.GetItems()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<Guid> Create( SheetCreateRequest sheetRequest)
         {
             var sheet = new Sheet
