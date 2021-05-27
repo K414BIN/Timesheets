@@ -16,11 +16,12 @@ namespace Timesheets.Models
         public Guid ServiceID  {get;set;}
         public int Amount  {get;set;}
         public Guid EmployeeID  {get;set;}
-    
+        public Guid? Invoiced  {get;set;}
 
          public Employee Employee {get;set;}
          public Service Service {get;set;}
          public Contract Contract  {get;set;}
+         public Invoice Invoice {get;set;}
 
     }
 }

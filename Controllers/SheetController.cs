@@ -25,27 +25,42 @@ namespace Timesheets.Controllers
     public class SheetController : ControllerBase
     {
         private readonly ISheetManager _sheetManager;
+        private readonly IContractManager _contractManager;
 
-             public SheetController(ISheetManager sheetManager)
-            {
+        public SheetController(ISheetManager sheetManager, IContractManager contractManager)
+        {
+                _contractManager = contractManager;
                 _sheetManager = sheetManager;
-            }
+        }
 
 
         [HttpGet("getbyid/{id}")]
-        public IActionResult Get([FromRoute] Guid id) 
-            {
-            var result =_sheetManager.GetItem(id);
-
+        public async Task<IActionResult> GetOne([FromRoute] Guid id) 
+        {
+            var result =await _sheetManager.GetItem(id);
             return Ok(result);
-            }
+        }
         
         [HttpPost("create")]
-        public IActionResult Create([FromBody] SheetCreateRequest sheet)
+        public async Task<IActionResult> Create([FromBody] SheetCreateRequest sheet)
         {
-            
-            var id =_sheetManager.Create(sheet);
+            var id = await _sheetManager.Create(sheet);
             return Ok(id);
         }
+        
+        [HttpGet("update/{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] SheetCreateRequest sheet)
+        {
+            var isAllowedToCreate = await _contractManager.CheckContractIsActive(sheet.ContractID);
+            if (isAllowedToCreate !=null && !(bool)isAllowedToCreate)
+            {
+                return BadRequest($"Contract {sheet.ContractID} is not active or not found.");
+            }
+            await _sheetManager.Update(id, sheet);
+            return Ok(id);
+        }
+
+
+
     }
 }

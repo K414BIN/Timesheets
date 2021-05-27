@@ -23,24 +23,49 @@ namespace Timesheets.Controllers
 
           
         [HttpPost("create")]
-        public IActionResult Create([FromBody] UserCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] UserCreateRequest request)
         {            
-            var id =_userManager.Create(request);
+            var id =await _userManager.Create(request);
             return Ok(id);
         }
 
+        /// <summary>
+        /// Возвращает одного пользователя по ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("userid/{id}")]
-        public IActionResult GetOne([FromRoute] Guid id) 
+        public async Task<IActionResult> GetOne([FromRoute] Guid id) 
         {
-           var result =_userManager.GetItem(id);
+           var result =await _userManager.GetItem(id);
            return Ok(result);
         }
 
+        /// <summary>
+        /// Возвращает список всех пользователей
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public IActionResult Get() 
+        public async Task<IActionResult> Get() 
         {
-            var result = _userManager.GetItems();
+            var result = await _userManager.GetItems();
             return Ok(result);
         }
+
+         /// <summary> Удаляет пользователя с заданным id /// </summary>
+        [HttpDelete("{id}")]
+        public async Task Delete([FromRoute] Guid id)
+        {
+            await _userManager.Delete(id);
+        }
+
+        /// <summary> Обновляет пользователя по ID          </summary>
+        
+        [HttpPut("{id}")]
+        public async Task Update([FromRoute] Guid id, [FromBody] UserCreateRequest userRequest)
+        {
+            await _userManager.Update(id, userRequest);   
+        }
+
     }
 }

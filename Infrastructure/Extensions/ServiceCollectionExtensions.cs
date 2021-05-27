@@ -44,8 +44,11 @@ namespace Timesheets.Infrastructure.Extensions
         /// Создание класса для конфигурации менеджеров. У меня Services вместо Domain. В дальнейшем надо будет избегать названия Services - это вносит путаницу 
         /// </summary>
         public static void ConfigureServicesManagers(this IServiceCollection services)
-        {
-            services.AddScoped<ISheetManager, SheetManager>();     
+        { 
+            services.AddScoped<IContractManager, ContractManager>();    
+            services.AddScoped<IUserManager, UserManager>();    
+            services.AddScoped<IEmployeeManager, EmployeeManager>();    
+            services.AddScoped<ISheetManager, SheetManager>();    
         }
         
         /// <summary>
