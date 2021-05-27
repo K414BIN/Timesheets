@@ -22,6 +22,11 @@ namespace Timesheets.Services.Implementetion
 
         public async Task<User> GetUser(LoginRequest request)
         {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var passwordHash = GetPasswordHash(request.Password);
             var user = await _userRepo.GetByLoginAndPasswordHash(request.Login, passwordHash);
             return user;
@@ -48,6 +53,7 @@ namespace Timesheets.Services.Implementetion
                 return sha1.ComputeHash(Encoding.Unicode.GetBytes(password));
             }
         }
+
         /// <summary>
         /// Не понимаю как реализовать удаление через метод
         /// </summary>
@@ -77,6 +83,16 @@ namespace Timesheets.Services.Implementetion
             };
 
            await _userRepo.Update(user);
+        }
+
+        Task<User> IUserManager.GetUser(LoginRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Guid> IUserManager.CreateUser(UserCreateRequest request)
+        {
+            throw new NotImplementedException();
         }
     }
 }

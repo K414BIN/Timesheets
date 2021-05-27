@@ -21,12 +21,11 @@ namespace Timesheets.Controllers
                 _userManager = userManager;
             }
 
-          
         [HttpPost("create")]
-        public async Task<IActionResult> Create([FromBody] UserCreateRequest request)
-        {            
-            var id =await _userManager.Create(request);
-            return Ok(id);
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
+        {
+            var response = await _userManager.CreateUser(request);
+            return Ok(response);
         }
 
         /// <summary>
@@ -60,7 +59,7 @@ namespace Timesheets.Controllers
         }
 
         /// <summary> Обновляет пользователя по ID          </summary>
-        
+
         [HttpPut("{id}")]
         public async Task Update([FromRoute] Guid id, [FromBody] UserCreateRequest userRequest)
         {

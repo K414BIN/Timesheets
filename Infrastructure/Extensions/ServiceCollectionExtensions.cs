@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -56,11 +57,28 @@ namespace Timesheets.Infrastructure.Extensions
         /// <summary>
         /// Создание отдельного класса для конфигурации Swagger`a, потому что в этом пакете много настроек
         /// </summary>
-        public static void ConfigureBackendSwagger(this IServiceCollection services)
+         public static void ConfigureBackendSwagger(this IServiceCollection services)
         {
-            services.AddSwaggerGen( c =>
+            services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Timesheets", Version = "v1"  });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Timesheets", Version = "v1"});
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference(){Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
         }
     }

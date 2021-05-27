@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using Timesheets.Services.Interfaces;
 using Timesheets.Models;
 using Timesheets.Models.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Timesheets.Controllers
 {
@@ -22,12 +23,12 @@ namespace Timesheets.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class SheetController : ControllerBase
+    public class SheetsController : ControllerBase
     {
         private readonly ISheetManager _sheetManager;
         private readonly IContractManager _contractManager;
 
-        public SheetController(ISheetManager sheetManager, IContractManager contractManager)
+        public SheetsController(ISheetManager sheetManager, IContractManager contractManager)
         {
                 _contractManager = contractManager;
                 _sheetManager = sheetManager;
@@ -42,13 +43,30 @@ namespace Timesheets.Controllers
         }
         
         [HttpPost("create")]
+   
         public async Task<IActionResult> Create([FromBody] SheetCreateRequest sheet)
         {
+            var isAllowedToCreate = await _contractManager.CheckContractIsActive(sheet.ContractID);
+
+            if (isAllowedToCreate !=null && !(bool)isAllowedToCreate)
+            {
+                return BadRequest($"Contract {sheet.ContractID} is not active or not found.");
+            }
+            
             var id = await _sheetManager.Create(sheet);
             return Ok(id);
         }
+
+        [Authorize(Roles = "user")]
+        [HttpGet]
+        public async Task<IActionResult> GetItems()
+        {
+            var result = await _sheetManager.GetItems();
+            return Ok(result);
+        }
+
         
-        [HttpGet("update/{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] SheetCreateRequest sheet)
         {
             var isAllowedToCreate = await _contractManager.CheckContractIsActive(sheet.ContractID);

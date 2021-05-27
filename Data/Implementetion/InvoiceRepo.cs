@@ -19,8 +19,7 @@ namespace Timesheets.Data.Implementetion
 
           public async Task Add(Invoice item)
         {
-            await _context.Invoices.Addasync(item);
-
+            await _context.Invoices.AddAsync(item);
             await _context.SaveChangesAsync();
         }
 
