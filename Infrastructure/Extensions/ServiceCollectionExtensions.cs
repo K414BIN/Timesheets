@@ -37,6 +37,7 @@ namespace Timesheets.Infrastructure.Extensions
             services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<ISheetRepo, SheetRepo>();
+            services.AddScoped<IInvoiceRepo, InvoiceRepo>();
         }
 
         
@@ -45,7 +46,8 @@ namespace Timesheets.Infrastructure.Extensions
         /// </summary>
         public static void ConfigureServicesManagers(this IServiceCollection services)
         { 
-            services.AddScoped<IContractManager, ContractManager>();    
+            services.AddScoped<IInvoiceManager,InvoiceManager>();
+            services.AddScoped<IContractManager, ContractManager>();
             services.AddScoped<IUserManager, UserManager>();    
             services.AddScoped<IEmployeeManager, EmployeeManager>();    
             services.AddScoped<ISheetManager, SheetManager>();    

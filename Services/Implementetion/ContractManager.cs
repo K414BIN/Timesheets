@@ -6,7 +6,7 @@ using Timesheets.Services.Interfaces;
 
 namespace Timesheets.Services.Implementetion
 {
-    public class ContractManager
+    public class ContractManager :  IContractManager
     {
         private readonly IContractRepo _contractRepo;
 
