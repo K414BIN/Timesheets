@@ -15,19 +15,23 @@ namespace Timesheets.Controllers
     [ApiController]
     public class InvoicesController : ControllerBase
     {
+        
+        private readonly IContractManager _contractManager;
+
         private readonly IInvoiceManager _invoiceManager;
         
-        public InvoicesController(IInvoiceManager invoiceManager)
-        {
-            _invoiceManager = invoiceManager;
-        }
-        
-        /// <summary> Создает клиентский счет </summary>
+        /// <summary> Cоздает клиентский счет </summary>
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] InvoiceRequest invoiceRequest)
+        public async Task<IActionResult> Create([FromBody] InvoiceRequest request)
         {
-            var id = await _invoiceManager.Create(invoiceRequest);
-            return Ok(id);
-        }
+            var isAllowedToCreate = await _contractManager.CheckContractIsActive(request.ContractId);
+			if (isAllowedToCreate != null && !(bool)isAllowedToCreate)
+			{
+				return BadRequest($"Contract {request.ContractId} is not active or not found.");
+			}
+			
+			var Id = await _invoiceManager.Create(request);
+			return Ok(Id);
+        }  
     }
 }

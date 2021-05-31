@@ -13,6 +13,11 @@ using Timesheets.Data.Interfaces;
 using Timesheets.Services.Implementetion;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Timesheets.Services.Interfaces;
+using Timesheets.Models.Dto;
+using Timesheets.Infrastructure.Validation;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Timesheets.Models.Dto.Authentication;
 
 namespace Timesheets.Infrastructure.Extensions
 {
@@ -54,7 +59,38 @@ namespace Timesheets.Infrastructure.Extensions
             services.AddScoped<IEmployeeManager, EmployeeManager>();    
             services.AddScoped<ISheetManager, SheetManager>();    
         }
-        
+
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        { 
+             
+             services.Configure<JwtAccessOptions>(configuration.GetSection("Authentication:JwtAccessOptions"));
+             configuration.Bind("Authentication:JwtAccessOptions", new JwtOptions());
+             services.AddTransient<ILoginManager, LoginManager>();
+             services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+ 	                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(UserService.SecretCode)),
+                    	ValidateIssuer = false,
+                    	ValidateAudience = false,
+                    	ClockSkew = TimeSpan.Zero
+                    };
+                });
+        }
+
+        public static void ConfigureValidation(this IServiceCollection services)
+        { 
+            services.AddTransient<IValidator < SheetCreateRequest>, SheetRequestValidator >();
+        }
+
         /// <summary>
         /// Создание отдельного класса для конфигурации Swagger`a, потому что в этом пакете много настроек
         /// </summary>
