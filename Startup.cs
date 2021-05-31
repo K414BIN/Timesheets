@@ -19,6 +19,10 @@ using Timesheets.Services.Interfaces;
 using Timesheets.Data;
 using Microsoft.EntityFrameworkCore;
 using Timesheets.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Timesheets.Models.Dto.Authentication;
 
 namespace Timesheets
 {
@@ -34,12 +38,30 @@ namespace Timesheets
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddCors();	
             services.ConfigureDbContext(Configuration);
             services.ConfigureRepositories();
             services.ConfigureServicesManagers();
             services.ConfigureBackendSwagger();
             services.AddControllers();
+            services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+ 	                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(UserService.SecretCode)),
+                    	ValidateIssuer = false,
+                    	ValidateAudience = false,
+                    	ClockSkew = TimeSpan.Zero
+                    };
+                });
         
         }
 
@@ -58,11 +80,15 @@ namespace Timesheets
             }
             
             app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseCors(x => x
+                .SetIsOriginAllowed(origin => true)
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
 
             app.UseAuthentication();
-            //app.UseAuthorization();
-
-            app.UseRouting();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

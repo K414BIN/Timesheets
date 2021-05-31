@@ -7,15 +7,18 @@ using Timesheets.Models.Dto;
 
 namespace Timesheets.Services.Interfaces
 {
-    /// <summary>
-    /// реализация CRUD для класса User 
-    /// </summary>
+  
     public interface IUserManager
     {
+          /// <summary> Возвращает пользователя по логину и паролю </summary>
+        Task<User> GetUser(LoginRequest request);
+
+        /// <summary> Создает нового пользователя </summary>
+        Task<Guid> CreateUser(UserCreateRequest request);
         Task<User> GetItem(Guid id);
         Task<IEnumerable<User>> GetItems();
-        Task<Guid> Create(UserCreateRequest userRequest);
-        Task Update(Guid id, UserCreateRequest userRequest);
+        //Task<Guid> Create(UserCreateRequest UserRequest);
+        Task Update(Guid id, UserCreateRequest UserRequest);
         Task Delete(Guid id);
     }
 }

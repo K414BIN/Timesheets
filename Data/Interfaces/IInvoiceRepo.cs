@@ -6,8 +6,8 @@ using Timesheets.Models;
 
 namespace Timesheets.Data.Interfaces
 {
-    public  interface ISheetRepo :IRepoBase<Sheet>
+    public interface IInvoiceRepo : IRepoBase<Invoice>
     {
-           Task<IEnumerable<Sheet>> GetItemsForInvoice(Guid contractId, DateTime dateStart, DateTime dateEnd);
+
     }
 }
