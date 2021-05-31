@@ -10,6 +10,7 @@ namespace Timesheets.Models
     /// </summary>
     public class Client
     {
+          public bool IsDeleted  {get;set;}
           public Guid User {get;set;}
           public Guid ID {get;set;}
     }
