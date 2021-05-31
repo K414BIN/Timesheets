@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Timesheets.Controllers
 {
     [Produces("application/json")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -77,8 +78,5 @@ namespace Timesheets.Controllers
             await _sheetManager.Update(id, sheet);
             return Ok(id);
         }
-
-
-
     }
 }

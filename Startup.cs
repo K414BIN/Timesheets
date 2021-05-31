@@ -79,18 +79,16 @@ namespace Timesheets
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Timesheets v1"));
             }
             
+            app.UseHttpsRedirection();
+            app.UseRouting();
             app.UseCors(x => x
                 .SetIsOriginAllowed(origin => true)
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
 
-            app.UseHttpsRedirection();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {

@@ -11,7 +11,7 @@ namespace Timesheets.Models.Dto.Authentication
 {
     internal sealed class UserService
     {
-        private IDictionary<string, AuthResponse> _users = new Dictionary<string, AuthResponse>()
+        private static readonly IDictionary<string, AuthResponse> _users = new Dictionary<string, AuthResponse>()
     	{
             {"test", new AuthResponse() { Password = "test"}}
     	};

@@ -9,6 +9,7 @@ using Timesheets.Models.Dto.Authentication;
 
 namespace Timesheets.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public sealed class UsersController : ControllerBase
@@ -19,54 +20,7 @@ namespace Timesheets.Controllers
 
             {
                _userService = userService;
-
-                //_userManager = UserManager;
             }
-
-        //[HttpPost("create")]
-        //public async Task<IActionResult> CreateUser([FromBody] UserCreateRequest request)
-        //{
-        //    var response = await _userManager.CreateUser(request);
-        //    return Ok(response);
-        //}
-
-        ///// <summary>
-        ///// Возвращает одного пользователя по ID
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpGet("userid/{id}")]
-        //public async Task<IActionResult> GetOne([FromRoute] Guid id) 
-        //{
-        //   var result =await _userManager.GetItem(id);
-        //   return Ok(result);
-        //}
-
-        ///// <summary>
-        ///// Возвращает список всех пользователей
-        ///// </summary>
-        ///// <returns></returns>
-        //[HttpGet]
-        //public async Task<IActionResult> Get() 
-        //{
-        //    var result = await _userManager.GetItems();
-        //    return Ok(result);
-        //}
-
-        // /// <summary> Удаляет пользователя с заданным id /// </summary>
-        //[HttpDelete("{id}")]
-        //public async Task Delete([FromRoute] Guid id)
-        //{
-        //    await _userManager.Delete(id);
-        //}
-
-        ///// <summary> Обновляет пользователя по ID          </summary>
-
-        //[HttpPut("{id}")]
-        //public async Task Update([FromRoute] Guid id, [FromBody] UserCreateRequest userRequest)
-        //{
-        //    await _userManager.Update(id, userRequest);   
-        //}
 
         [AllowAnonymous]
     	[HttpPost("authenticate")]
