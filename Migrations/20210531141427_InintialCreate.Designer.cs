@@ -10,7 +10,7 @@ using Timesheets.Data;
 namespace Timesheets.Migrations
 {
     [DbContext(typeof(TimeSheetDbContext))]
-    [Migration("20210527161400_InintialCreate")]
+    [Migration("20210531141427_InintialCreate")]
     partial class InintialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -142,9 +142,6 @@ namespace Timesheets.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("InvoiceId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("Invoiced")
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ServiceID")

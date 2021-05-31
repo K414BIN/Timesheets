@@ -105,11 +105,10 @@ namespace Timesheets.Migrations
                     ServiceID = table.Column<Guid>(type: "uuid", nullable: false),
                     Amount = table.Column<int>(type: "integer", nullable: false),
                     EmployeeID = table.Column<Guid>(type: "uuid", nullable: false),
-                    Invoiced = table.Column<Guid>(type: "uuid", nullable: true),
+                    InvoiceId = table.Column<Guid>(type: "uuid", nullable: true),
                     EmployeeId = table.Column<Guid>(type: "uuid", nullable: false),
                     ServiceId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ContractId = table.Column<Guid>(type: "uuid", nullable: false),
-                    InvoiceId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ContractId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

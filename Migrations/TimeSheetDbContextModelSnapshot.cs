@@ -142,9 +142,6 @@ namespace Timesheets.Migrations
                     b.Property<Guid?>("InvoiceId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("Invoiced")
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("ServiceID")
                         .HasColumnType("uuid");
 
