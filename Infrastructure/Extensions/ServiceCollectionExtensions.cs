@@ -11,6 +11,7 @@ using Timesheets.Data;
 using Timesheets.Data.Implementetion;
 using Timesheets.Data.Interfaces;
 using Timesheets.Services.Implementetion;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Timesheets.Services.Interfaces;
 
 namespace Timesheets.Infrastructure.Extensions
