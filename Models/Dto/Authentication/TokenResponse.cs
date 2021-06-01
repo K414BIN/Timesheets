@@ -2,8 +2,7 @@
 {
      public sealed  class TokenResponse
     {
-          
          public string  Token;
-         public string RefreshToken   ;
+         public string RefreshToken;
     }
 }

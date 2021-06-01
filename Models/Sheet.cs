@@ -18,10 +18,9 @@ namespace Timesheets.Models
         public Guid EmployeeID  {get;set;}
         public Guid? InvoiceId  {get;set;}
 
-         public Employee Employee {get;set;}
-         public Service Service {get;set;}
-         public Contract Contract  {get;set;}
-         public Invoice Invoice {get;set;}
-
+        public Employee Employee {get;set;}
+        public Service Service {get;set;}
+        public Contract Contract  {get;set;}
+        public Invoice Invoice {get;set;}
     }
 }

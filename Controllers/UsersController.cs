@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Timesheets.Data.Implementetion;
+using Timesheets.Infrastructure.Validation;
+using Timesheets.Models;
 using Timesheets.Models.Dto;
 using Timesheets.Models.Dto.Authentication;
-
+using Timesheets.Services.Interfaces;
 
 namespace Timesheets.Controllers
 {
@@ -15,12 +18,13 @@ namespace Timesheets.Controllers
     public sealed class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IUserManager _userManager;
         
-        public UsersController(IUserService userService)
-
-            {
+        public UsersController(IUserService userService, IUserManager userManager)
+        {
                _userService = userService;
-            }
+               _userManager = userManager;
+        }
 
         [AllowAnonymous]
     	[HttpPost("authenticate")]
@@ -58,6 +62,21 @@ namespace Timesheets.Controllers
             	Expires = DateTime.UtcNow.AddDays(7)
         	};	
             Response.Cookies.Append("refreshToken", token, cookieOptions);
+    	}
+
+        [HttpPost("create")]
+    	public IActionResult Create([FromBody] UserCreateRequest user)
+        {
+            IOperationResult<User> result = (IOperationResult<User>)_userManager.CreateUser(user);
+                
+
+            if (result.Succeed)
+            {
+                return Created(new Uri($"users/{result.Result.ID}"), result);
+            }
+
+            return BadRequest(result);
+        
     	}
 	}
     

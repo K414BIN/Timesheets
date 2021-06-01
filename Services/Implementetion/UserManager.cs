@@ -32,7 +32,7 @@ namespace Timesheets.Services.Implementetion
             return user;
         }
 
-        public async Task<Guid> Create(UserCreateRequest user)
+        public async Task<Guid> CreateUser(UserCreateRequest user)
         {
             var sheet = new User
             {
@@ -83,16 +83,6 @@ namespace Timesheets.Services.Implementetion
             };
 
            await _userRepo.Update(user);
-        }
-
-        Task<User> IUserManager.GetUser(LoginRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Guid> IUserManager.CreateUser(UserCreateRequest request)
-        {
-            throw new NotImplementedException();
         }
     }
 }

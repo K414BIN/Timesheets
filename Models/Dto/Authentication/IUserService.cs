@@ -11,5 +11,6 @@ namespace Timesheets.Models.Dto.Authentication
     {
             TokenResponse Authenticate(string user, string password);
             string RefreshToken(string token);
-    }
+        	bool IsUserNameAlreadyExist(string firstName);
+     }
 }

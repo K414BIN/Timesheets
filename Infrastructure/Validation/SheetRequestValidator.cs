@@ -14,6 +14,13 @@ namespace Timesheets.Infrastructure.Validation
             RuleFor( unit  => unit.Amount)
                     .InclusiveBetween(1,8)  
                     .WithMessage(ValidationMessages.SheetAmountError);
+
+            RuleFor ( unit  => unit.ContractID)
+                .NotEmpty();
+            RuleFor ( unit  => unit.ServiceID)
+                .NotEmpty();
+            RuleFor ( unit  => unit.EmployeeID)
+                .NotEmpty();
              
         }
     }
