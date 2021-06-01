@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
@@ -18,16 +20,38 @@ namespace Timesheets.Services.Implementetion
           _userRepo = userRepo;
         }
 
-        public async Task<Guid> Create(UserCreateRequest user)
+        public async Task<User> GetUser(LoginRequest request)
+        {
+            if (request is null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            var passwordHash = GetPasswordHash(request.Password);
+            var user = await _userRepo.GetByLoginAndPasswordHash(request.Login, passwordHash);
+            return user;
+        }
+
+        public async Task<Guid> CreateUser(UserCreateRequest user)
         {
             var sheet = new User
             {
                 ID=Guid.NewGuid(),
-                Username = user.Username
+                Username = user.Username,
+                PasswordHash = GetPasswordHash(user.Password),
+                Role = user.Role
             };
 
-            await _userRepo.Add(sheet);
+            await _userRepo.CreateUser(sheet);
             return sheet.ID;
+        }
+
+        static byte[] GetPasswordHash (string password)
+        {
+            using ( var sha1 =  new SHA1CryptoServiceProvider())
+            {
+                return sha1.ComputeHash(Encoding.Unicode.GetBytes(password));
+            }
         }
 
         /// <summary>
