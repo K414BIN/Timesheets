@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Reflection;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Timesheets.Services.Interfaces;
-using Timesheets.Models;
 using Timesheets.Models.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Timesheets.Services.Managers.Interfaces;
 
 namespace Timesheets.Controllers
 {

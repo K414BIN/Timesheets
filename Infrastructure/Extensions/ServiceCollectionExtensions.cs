@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,14 +7,14 @@ using Microsoft.OpenApi.Models;
 using Timesheets.Data;
 using Timesheets.Data.Implementetion;
 using Timesheets.Data.Interfaces;
-using Timesheets.Services.Implementetion;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Timesheets.Services.Interfaces;
 using Timesheets.Models.Dto;
 using Timesheets.Infrastructure.Validation;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Timesheets.Models.Dto.Authentication;
+using Timesheets.Services.Managers.Implementetion;
+using Timesheets.Services.Managers.Interfaces;
 
 namespace Timesheets.Infrastructure.Extensions
 {

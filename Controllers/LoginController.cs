@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Timesheets.Models.Dto;
-using Timesheets.Services.Interfaces;
+using Timesheets.Services.Managers.Interfaces;
 
 namespace Timesheets.Controllers
 {  

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 using Microsoft.EntityFrameworkCore;
+using Timesheets.Models.Entities;
 
 namespace Timesheets.Data.Implementetion
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Timesheets.Models
+namespace Timesheets.Models.Entities
 {
     public class Invoice
     {

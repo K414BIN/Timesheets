@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Timesheets.Data.Implementetion;
 using Timesheets.Infrastructure.Validation;
-using Timesheets.Models;
+using Timesheets.Models.Entities;
 using Timesheets.Models.Dto;
 using Timesheets.Models.Dto.Authentication;
-using Timesheets.Services.Interfaces;
+using Timesheets.Services.Managers.Interfaces;
 
 namespace Timesheets.Controllers
 {

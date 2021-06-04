@@ -9,9 +9,10 @@ using Timesheets.Infrastructure.Extensions;
 using Timesheets.Models;
 using Timesheets.Models.Dto;
 using Timesheets.Models.Dto.Authentication;
-using Timesheets.Services.Interfaces;
+using Timesheets.Models.Entities;
+using Timesheets.Services.Managers.Interfaces;
 
-namespace Timesheets.Services.Implementetion
+namespace Timesheets.Services.Managers.Implementetion
 {
     public class LoginManager : ILoginManager
     {

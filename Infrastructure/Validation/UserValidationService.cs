@@ -6,6 +6,7 @@ using FluentValidation;
 using FluentValidation.Results;
 using Timesheets.Models;
 using Timesheets.Models.Dto.Authentication;
+using Timesheets.Models.Entities;
 
 namespace Timesheets.Infrastructure.Validation
 {

@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 using Timesheets.Models.Dto;
-using Timesheets.Services.Interfaces;
+using Timesheets.Models.Entities;
+using Timesheets.Services.Managers.Interfaces;
 
-namespace Timesheets.Services.Implementetion
+namespace Timesheets.Services.Managers.Implementetion
 {
     public class InvoiceManager : IInvoiceManager 
     {

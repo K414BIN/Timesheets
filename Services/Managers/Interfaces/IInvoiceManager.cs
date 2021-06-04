@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Timesheets.Models.Dto;
+using Timesheets.Models.Entities;
 
-namespace Timesheets.Services.Interfaces
+namespace Timesheets.Services.Managers.Interfaces
 {
     public interface IInvoiceManager
     {

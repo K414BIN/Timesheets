@@ -2,9 +2,9 @@
 using Timesheets.Data.Interfaces;
 using System.Linq;
 using System.Threading.Tasks;
-using Timesheets.Services.Interfaces;
+using Timesheets.Services.Managers.Interfaces;
 
-namespace Timesheets.Services.Implementetion
+namespace Timesheets.Services.Managers.Implementetion
 {
     public class ContractManager :  IContractManager
     {
