@@ -39,6 +39,9 @@ namespace Timesheets.Services.Implementetion
                 EmployeeID = sheetRequest.EmployeeID,
                 ServiceID = sheetRequest.ServiceID
             };
+
+            sheet.IsApproved = true;
+            sheet.ApproveDate = DateTime.Now;
             await _sheetRepo.Add(sheet);
             return sheet.ID;
         }

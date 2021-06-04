@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Timesheets.Data;
@@ -9,9 +10,10 @@ using Timesheets.Data;
 namespace Timesheets.Migrations
 {
     [DbContext(typeof(TimeSheetDbContext))]
-    partial class TimeSheetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210604100723_Update_Sheet_class")]
+    partial class Update_Sheet_class
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -10,6 +10,7 @@ namespace Timesheets.Models
     /// </summary>
     public class Sheet
     {
+        public DateTime ApproveDate  {get;set;}
         public Guid ID {get;set;}
         public DateTime Date  {get;set;}
         public Guid ContractID {get;set;}
@@ -17,7 +18,7 @@ namespace Timesheets.Models
         public int Amount  {get;set;}
         public Guid EmployeeID  {get;set;}
         public Guid? InvoiceId  {get;set;}
-
+        public bool IsApproved  {get;set;}
         public Employee Employee {get;set;}
         public Service Service {get;set;}
         public Contract Contract  {get;set;}

@@ -11,8 +11,9 @@ namespace Timesheets.Services.Implementetion
 {
     public class InvoiceManager : IInvoiceManager 
     {
-         private readonly IInvoiceRepo _invoiceRepo;
+        private readonly IInvoiceRepo _invoiceRepo;
         private readonly ISheetRepo _sheetRepo;
+        const int salaryMult = 150;
 
         public InvoiceManager(IInvoiceRepo invoiceRepo, ISheetRepo sheetRepo)
         {
@@ -34,7 +35,7 @@ namespace Timesheets.Services.Implementetion
                 .GetItemsForInvoice(invoiceRequest.ContractId, invoiceRequest.DateStart, invoiceRequest.DateEnd);
 
             invoice.Sheets.AddRange(sheetsToInclude);
-            invoice.Sum = invoice.Sheets.Sum(x => x.Amount * 150);
+            invoice.Sum = invoice.Sheets.Sum(x => x.Amount * salaryMult);
 
             await _invoiceRepo.Add(invoice);
 
