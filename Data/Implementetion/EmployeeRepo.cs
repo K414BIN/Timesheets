@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 using Microsoft.EntityFrameworkCore;
+using Timesheets.Models.Entities;
 
 namespace Timesheets.Data.Implementetion
 {
@@ -17,9 +18,20 @@ namespace Timesheets.Data.Implementetion
             _context = context;
         }
 
+
+        /// <summary>
+        /// Добавление работника 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public async Task Add(Employee item)
         {
-           await _context.Employees.AddAsync(item);
+            // Такая запись 
+           await    _context.Employees.AddAsync(item);
+           // и такая запись проходят 
+           //  await _context.AddAsync(item);
+           // Как правильно - я не понял.
+                
            await _context.SaveChangesAsync();
         }
 
@@ -29,10 +41,9 @@ namespace Timesheets.Data.Implementetion
             await _context.SaveChangesAsync();
         }
 
-        public async  Task<Employee> GetItem(Guid ID)
+        public async  Task<Employee> GetItem(Guid Id)
         {
-            var result = await _context.Employees.FindAsync(ID);
-            return result;
+            return await _context.Employees.FindAsync(Id);
         }
 
         public async Task<IEnumerable<Employee>> GetItems()

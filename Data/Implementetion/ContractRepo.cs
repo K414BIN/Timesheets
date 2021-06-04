@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
+using Timesheets.Models.Entities;
 
 namespace Timesheets.Data.Implementetion
 {
@@ -48,5 +49,14 @@ namespace Timesheets.Data.Implementetion
             await _context.SaveChangesAsync();
         }
 
+        
+        public async Task<bool?> CheckContractIsActive(Guid id)
+        {
+            var contract = await _context.Contracts.FindAsync(id);
+            var now = DateTime.Now;
+            var isActive = now <= contract?.DateEnd && now >= contract?.DateStart;
+            
+            return isActive;
+        }
     }
 }
