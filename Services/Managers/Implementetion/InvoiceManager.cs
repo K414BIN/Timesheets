@@ -7,6 +7,7 @@ using Timesheets.Models;
 using Timesheets.Models.Dto;
 using Timesheets.Models.Entities;
 using Timesheets.Services.Managers.Interfaces;
+using Timesheets.Services.ValueObjects;
 
 namespace Timesheets.Services.Managers.Implementetion
 {
@@ -36,7 +37,7 @@ namespace Timesheets.Services.Managers.Implementetion
                 .GetItemsForInvoice(invoiceRequest.ContractId, invoiceRequest.DateStart, invoiceRequest.DateEnd);
 
             invoice.Sheets.AddRange(sheetsToInclude);
-            invoice.Sum = invoice.Sheets.Sum(x => x.Amount * salaryMult);
+            invoice.Sum = Money.FromDecimal(invoice.Sheets.Sum(x => x.Amount * salaryMult));
 
             await _invoiceRepo.Add(invoice);
 

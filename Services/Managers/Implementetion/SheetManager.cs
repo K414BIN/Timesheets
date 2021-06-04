@@ -42,7 +42,7 @@ namespace Timesheets.Services.Managers.Implementetion
             };
 
             sheet.IsApproved = true;
-            sheet.ApproveDate = DateTime.Now;
+            sheet.ApprovedDate = DateTime.Now;
             await _sheetRepo.Add(sheet);
             return sheet.ID;
         }

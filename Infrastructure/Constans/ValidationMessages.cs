@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Timesheets.Infrastructure.Validation
+﻿
+namespace Timesheets.Infrastructure.Constans
 {
     public static class ValidationMessages
     {

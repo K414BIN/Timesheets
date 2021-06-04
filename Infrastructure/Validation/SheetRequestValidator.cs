@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation;
+using Timesheets.Infrastructure.Constans;
 using Timesheets.Models.Dto;
 
 namespace Timesheets.Infrastructure.Validation

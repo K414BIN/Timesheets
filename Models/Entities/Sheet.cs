@@ -9,9 +9,9 @@ namespace Timesheets.Models.Entities
     /// Информация о затраченном времени сотрудника
     /// </summary>
     public class Sheet
-    {
-        public DateTime ApproveDate  {get;set;}
+    {   
         public Guid ID {get;set;}
+        public DateTime  ApprovedDate {get;set;}
         public DateTime Date  {get;set;}
         public Guid ContractID {get;set;}
         public Guid ServiceID  {get;set;}
@@ -19,6 +19,7 @@ namespace Timesheets.Models.Entities
         public Guid EmployeeID  {get;set;}
         public Guid? InvoiceId  {get;set;}
         public bool IsApproved  {get;set;}
+
         public Employee Employee {get;set;}
         public Service Service {get;set;}
         public Contract Contract  {get;set;}

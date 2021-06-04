@@ -1,6 +1,4 @@
-﻿
-//using System.ComponentModel.DataAnnotations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FluentValidation;
 using FluentValidation.Results;
@@ -29,7 +27,6 @@ namespace Timesheets.Infrastructure.Validation
                 failure.Code = error.ErrorCode;
  
                 failures.Add(failure);
- 
         	}
  
             return failures;
