@@ -10,19 +10,19 @@ namespace Timesheets.Models.Entities
     /// </summary>
     public class Sheet
     {   
-        public Guid ID {get;set;}
-        public DateTime  ApprovedDate {get;set;}
-        public DateTime Date  {get;set;}
-        public Guid ContractID {get;set;}
-        public Guid ServiceID  {get;set;}
-        public int Amount  {get;set;}
-        public Guid EmployeeID  {get;set;}
-        public Guid? InvoiceId  {get;set;}
-        public bool IsApproved  {get;set;}
+        public Guid ID {get; protected set;}
+        public DateTime  ApprovedDate {get;protected set;}
+        public DateTime Date  {get;protected set;}
+        public Guid ContractID {get;protected set;}
+        public Guid ServiceID  {get;protected set;}
+        public int Amount  {get;protected set;}
+        public Guid EmployeeID  {get;protected set;}
+        public Guid? InvoiceId  {get;protected set;}
+        public bool IsApproved  {get;protected set;}
 
-        public Employee Employee {get;set;}
-        public Service Service {get;set;}
-        public Contract Contract  {get;set;}
-        public Invoice Invoice {get;set;}
+        public Employee Employee {get;set; }
+        public Service Service   {get;set; }
+        public Contract Contract {get;set; }
+        public Invoice Invoice   {get;set; }
     }
 }
