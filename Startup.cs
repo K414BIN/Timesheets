@@ -19,6 +19,11 @@ using Timesheets.Services.Interfaces;
 using Timesheets.Data;
 using Microsoft.EntityFrameworkCore;
 using Timesheets.Infrastructure.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Timesheets.Models.Dto.Authentication;
+using FluentValidation.AspNetCore;
 
 namespace Timesheets
 {
@@ -34,12 +39,14 @@ namespace Timesheets
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.ConfigureValidation();
             services.ConfigureDbContext(Configuration);
             services.ConfigureRepositories();
             services.ConfigureServicesManagers();
             services.ConfigureBackendSwagger();
-            services.AddControllers();
+            services.ConfigureAuthentication(Configuration);
+            services.AddControllers().AddFluentValidation();
+           
         
         }
 
@@ -58,11 +65,9 @@ namespace Timesheets
             }
             
             app.UseHttpsRedirection();
-
-            app.UseAuthentication();
-            //app.UseAuthorization();
-
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,13 @@ using Timesheets.Data;
 using Timesheets.Data.Implementetion;
 using Timesheets.Data.Interfaces;
 using Timesheets.Services.Implementetion;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Timesheets.Services.Interfaces;
+using Timesheets.Models.Dto;
+using Timesheets.Infrastructure.Validation;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Timesheets.Models.Dto.Authentication;
 
 namespace Timesheets.Infrastructure.Extensions
 {
@@ -37,6 +44,7 @@ namespace Timesheets.Infrastructure.Extensions
             services.AddScoped<IEmployeeRepo, EmployeeRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<ISheetRepo, SheetRepo>();
+            services.AddScoped<IInvoiceRepo, InvoiceRepo>();
         }
 
         
@@ -44,18 +52,70 @@ namespace Timesheets.Infrastructure.Extensions
         /// Создание класса для конфигурации менеджеров. У меня Services вместо Domain. В дальнейшем надо будет избегать названия Services - это вносит путаницу 
         /// </summary>
         public static void ConfigureServicesManagers(this IServiceCollection services)
-        {
-            services.AddScoped<ISheetManager, SheetManager>();     
+        { 
+            services.AddScoped<IInvoiceManager,InvoiceManager>();
+            services.AddScoped<IContractManager, ContractManager>();
+            services.AddScoped<IUserManager, UserManager>();    
+            services.AddScoped<IEmployeeManager, EmployeeManager>();    
+            services.AddScoped<ISheetManager, SheetManager>();    
         }
-        
+
+        public static void ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+        { 
+             
+             services.Configure<JwtAccessOptions>(configuration.GetSection("Authentication:JwtAccessOptions"));
+             configuration.Bind("Authentication:JwtAccessOptions", new JwtOptions());
+             services.AddTransient<ILoginManager, LoginManager>();
+             services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+ 	                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(UserService.SecretCode)),
+                    	ValidateIssuer = false,
+                    	ValidateAudience = false,
+                    	ClockSkew = TimeSpan.Zero
+                    };
+                });
+        }
+
+        public static void ConfigureValidation(this IServiceCollection services)
+        { 
+            services.AddTransient<IValidator < SheetCreateRequest>, SheetRequestValidator >();
+        }
+
         /// <summary>
         /// Создание отдельного класса для конфигурации Swagger`a, потому что в этом пакете много настроек
         /// </summary>
-        public static void ConfigureBackendSwagger(this IServiceCollection services)
+         public static void ConfigureBackendSwagger(this IServiceCollection services)
         {
-            services.AddSwaggerGen( c =>
+            services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Timesheets", Version = "v1"  });
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Timesheets", Version = "v1"});
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme()
+                        {
+                            Reference = new OpenApiReference(){Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
         }
     }
