@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 
@@ -16,29 +17,35 @@ namespace Timesheets.Data.Implementetion
             _context = context;
         }
 
-        Task IRepoBase<Service>.Add(Service item)
+       public async Task Add(Service item)
         {
-            throw new NotImplementedException();
+            await _context.Services.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
-        Task IRepoBase<Service>.Delete(Service item)
+        public async Task Delete(Service item)
         {
-            throw new NotImplementedException();
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
-        Task<Service> IRepoBase<Service>.GetItem(Guid ID)
+        public async  Task<Service> GetItem(Guid ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Services.FindAsync(ID);
+            return result;
         }
 
-        Task<IEnumerable<Service>> IRepoBase<Service>.GetItems()
+        public async Task<IEnumerable<Service>> GetItems()
         {
-            throw new NotImplementedException();
+            var result = await _context.Services.ToListAsync();
+            return result;
         }
 
-        Task IRepoBase<Service>.Update(Service item)
+        public async Task Update(Service item)
         {
-            throw new NotImplementedException();
+             _context.Services.Update(item);
+            await _context.SaveChangesAsync();
         }
+
     }
 }

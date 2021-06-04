@@ -17,30 +17,35 @@ namespace Timesheets.Data.Implementetion
             _context = context;
         }
 
-          public async Task Add(Invoice item)
+        public async Task Add(Invoice item)
         {
             await _context.Invoices.AddAsync(item);
             await _context.SaveChangesAsync();
         }
 
-        Task IRepoBase<Invoice>.Delete(Invoice item)
+        public async Task Delete(Invoice item)
         {
-            throw new NotImplementedException();
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
-        Task<Invoice> IRepoBase<Invoice>.GetItem(Guid ID)
+        public async  Task<Invoice> GetItem(Guid ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Invoices.FindAsync(ID);
+            return result;
         }
 
-        Task<IEnumerable<Invoice>> IRepoBase<Invoice>.GetItems()
+        public async Task<IEnumerable<Invoice>> GetItems()
         {
-            throw new NotImplementedException();
+            var result = await _context.Invoices.ToListAsync();
+            return result;
         }
 
-        Task IRepoBase<Invoice>.Update(Invoice item)
+        public async Task Update(Invoice item)
         {
-            throw new NotImplementedException();
+             _context.Invoices.Update(item);
+            await _context.SaveChangesAsync();
         }
+
     }
 }

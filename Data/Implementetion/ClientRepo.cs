@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 
@@ -16,29 +17,35 @@ namespace Timesheets.Data.Implementetion
             _context = context;
         }
 
-        Task IRepoBase<Client>.Add(Client item)
+        public async Task Add(Client item)
         {
-            throw new NotImplementedException();
+            await _context.Clients.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
-        Task IRepoBase<Client>.Delete(Client item)
+        public async Task Delete(Client item)
         {
-            throw new NotImplementedException();
+            _context.Remove(item);
+            await _context.SaveChangesAsync();
         }
 
-        Task<Client> IRepoBase<Client>.GetItem(Guid ID)
+        public async  Task<Client> GetItem(Guid ID)
         {
-            throw new NotImplementedException();
+            var result = await _context.Clients.FindAsync(ID);
+            return result;
         }
 
-        Task<IEnumerable<Client>> IRepoBase<Client>.GetItems()
+        public async Task<IEnumerable<Client>> GetItems()
         {
-            throw new NotImplementedException();
+            var result = await _context.Clients.ToListAsync();
+            return result;
         }
 
-        Task IRepoBase<Client>.Update(Client item)
+        public async Task Update(Client item)
         {
-            throw new NotImplementedException();
+             _context.Clients.Update(item);
+            await _context.SaveChangesAsync();
         }
+
     }
 }
