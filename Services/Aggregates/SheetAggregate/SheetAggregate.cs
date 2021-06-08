@@ -12,19 +12,6 @@ namespace Timesheets.Services.Aggregates.SheetAggregate
     {
         private SheetAggregate(){}
 
-        public static SheetAggregate Create(int amount, Guid contractId, DateTime date, Guid employeeId, Guid serviceId)
-        {
-            return new SheetAggregate()
-            {
-                ID = Guid.NewGuid(),
-                Amount = amount,
-                ContractID = contractId,
-                Date = date,
-                EmployeeID = employeeId,
-                ServiceID = serviceId
-            };
-        }
-
         public static SheetAggregate CreateFromSheetRequest(SheetCreateRequest sheetRequest)
         {
             return new SheetAggregate()
