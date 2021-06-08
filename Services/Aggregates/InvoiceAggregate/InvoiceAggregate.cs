@@ -13,7 +13,7 @@ namespace Timesheets.Services.Aggregates.InvoiceAggregate
 
         private InvoiceAggregate(){}
 
-        public static InvoiceAggregate Create(Guid contractId, DateTime dateEnd, DateTime dateStart)
+        public static InvoiceAggregate Create(Guid contractId, DateTime dateStart, DateTime dateEnd)
         {
             return new InvoiceAggregate()
             {
