@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Timesheets.Data.Ef.Configurations;
 using Timesheets.Models;
+using Timesheets.Models.Entities;
 
 namespace Timesheets.Data
 {
@@ -15,6 +17,7 @@ namespace Timesheets.Data
          public DbSet<Sheet>   Sheets {get;set;}
          public DbSet<Service>   Services {get;set;}
          public DbSet<User>   Users {get;set;}
+         public DbSet<Invoice>   Invoices {get;set;}
 
         public TimeSheetDbContext(DbContextOptions<TimeSheetDbContext> options) : base(options)
         {
@@ -27,31 +30,13 @@ namespace Timesheets.Data
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Client>().ToTable("clients");
-            modelBuilder.Entity<Contract>().ToTable("contracts");
-            modelBuilder.Entity<User>().ToTable("users");
-            modelBuilder.Entity<Service>().ToTable("services");
-            modelBuilder.Entity<Sheet>().ToTable("sheets");
-            modelBuilder.Entity<Employee>().ToTable("employees");
-
-            modelBuilder.Entity<Sheet>()
-                .HasOne(sheet => sheet.Service)
-                .WithMany(service => service.Sheets)
-                .HasForeignKey("ServiceID");
-                
-            
-            modelBuilder.Entity<Sheet>()
-                .HasOne(sheet => sheet.Contract)
-                .WithMany(contract => contract.Sheets)
-                .HasForeignKey("ContractID");
-                
-
-            modelBuilder.Entity<Sheet>()
-                .HasOne(sheet => sheet.Employee)
-                .WithMany(employee => employee.Sheets)
-                .HasForeignKey("EmployeeID");
-             
-             
+            modelBuilder.ApplyConfiguration(new ClientConfiguration());
+            modelBuilder.ApplyConfiguration(new ContractConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
+            modelBuilder.ApplyConfiguration(new ServiceConfiguration());
+            modelBuilder.ApplyConfiguration(new SheetConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
         }
     }
 }

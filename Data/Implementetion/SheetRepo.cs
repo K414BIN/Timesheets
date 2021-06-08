@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Timesheets.Data.Interfaces;
 using Timesheets.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Timesheets.Models.Entities;
 
 namespace Timesheets.Data.Implementetion
 {
@@ -40,6 +42,17 @@ namespace Timesheets.Data.Implementetion
         {
             var result  = await _context.Sheets.ToListAsync();
             return result;
+        }
+
+        public async Task<IEnumerable<Sheet>> GetItemsForInvoice(Guid contractId, DateTime dateStart, DateTime dateEnd)
+        {
+              
+           var sheets =  await _context.Sheets
+                .Where(x => x.ContractID == contractId)
+                .Where(x => x.Date >= dateStart && x.Date <= dateEnd)
+                .ToListAsync();
+
+            return sheets;
         }
 
         public async Task Update(Sheet item)
